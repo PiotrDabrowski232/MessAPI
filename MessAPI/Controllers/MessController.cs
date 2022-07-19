@@ -23,6 +23,11 @@ namespace MessAPI.Controllers
         {
             return _logger.Get();
         }
-       
+        [HttpPost]
+        public ActionResult<IEnumerable<MessaClass>> Post([FromQuery] string addTitle, [FromQuery] string addBody)
+        {
+            return Ok(_logger.Post(addTitle, addBody));
+        }
+
     }
 }
