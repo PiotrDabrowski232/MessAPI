@@ -9,33 +9,32 @@ namespace MessAPI.Controllers
     
     [Route("[controller]")]
     [ApiController]
-    public class MessageController : ControllerBase
+    public class MessController : ControllerBase
     {
-        private readonly MessageService _service;
+        private readonly MessService _logger;
 
-        public MessageController(ILogger<MessageController> service)
+        public MessController(ILogger<MessController> logger)
         {
-            _service = new MessageService();
+            _logger = new MessService();
         }
 
         [HttpGet]
-        public IEnumerable<Message> Get()
+        public IEnumerable<MessaClass> Get()
         {
-
-            return _service.Get();
+           
+            return _logger.Get();
         }
-       
-        [HttpPost]
-        public ActionResult<IEnumerable<Message>> Post([FromQuery] string addTitle, [FromQuery] string addBody)
-        {
-            return Ok(_service.Post(addTitle, addBody));
-        }
-         /*[Route("mess/{id}")]
+        [Route("mess/{id}")]
         [HttpGet]
         public IEnumerable<MessaClass> Get([FromRoute] int id)
         {
 
             return _logger.Get(id);
+        }
+        [HttpPost]
+        public ActionResult<IEnumerable<MessaClass>> Post([FromQuery] string addTitle, [FromQuery] string addBody)
+        {
+            return Ok(_logger.Post(addTitle, addBody));
         }
         [Route("/{id}/{titleToChange}")]
         [HttpPut]
@@ -49,6 +48,6 @@ namespace MessAPI.Controllers
         public ActionResult<IEnumerable<MessaClass>> Delete([FromRoute] int id)
         {
             return Ok(_logger.Delete(id));
-        }*/
+        }
     }
 }
