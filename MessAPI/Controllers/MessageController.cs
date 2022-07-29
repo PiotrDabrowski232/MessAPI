@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 namespace MessAPI.Controllers
 {
-    
+
     [Route("[controller]")]
     [ApiController]
     public class MessageController : ControllerBase
@@ -21,34 +21,26 @@ namespace MessAPI.Controllers
         [HttpGet]
         public IEnumerable<Message> Get()
         {
-
             return _service.Get();
         }
-       
+
         [HttpPost]
         public ActionResult<IEnumerable<Message>> Post([FromQuery] string addTitle, [FromQuery] string addBody)
         {
             return Ok(_service.Post(addTitle, addBody));
         }
-         /*[Route("mess/{id}")]
-        [HttpGet]
-        public IEnumerable<MessaClass> Get([FromRoute] int id)
-        {
 
-            return _logger.Get(id);
-        }
-        [Route("/{id}/{titleToChange}")]
         [HttpPut]
-        public ActionResult<IEnumerable<MessaClass>> Put2([FromRoute]int id, [FromRoute] string titleToChange)
+        public ActionResult<IEnumerable<Message>> Put([FromQuery] int id, [FromQuery] string titleToChange)
         {
-            return Ok(_logger.Put(id, titleToChange));
+            return Ok(_service.Put(id, titleToChange));
         }
 
-        [Route("/{id}")]
-        [HttpDelete("{id}")]
-        public ActionResult<IEnumerable<MessaClass>> Delete([FromRoute] int id)
+        [HttpDelete]
+        public ActionResult<IEnumerable<Message>> Delete([FromQuery] int id)
         {
-            return Ok(_logger.Delete(id));
-        }*/
+            return Ok(_service.Delete(id));
+        }
     }
 }
+
