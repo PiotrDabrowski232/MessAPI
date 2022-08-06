@@ -16,7 +16,5 @@ namespace MessAPI
         public Message()
         {
         }
-       
-       
     }
 }

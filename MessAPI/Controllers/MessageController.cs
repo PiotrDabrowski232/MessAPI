@@ -11,35 +11,40 @@ namespace MessAPI.Controllers
     [ApiController]
     public class MessageController : ControllerBase
     {
-        private readonly MessageService _service;
+        private readonly IMessageRepository _service;
 
-        public MessageController(ILogger<MessageController> service)
+        public MessageController(IMessageRepository service)
         {
-            _service = new MessageService();
+            _service = service;
         }
+
+
 
         [HttpGet]
         public IEnumerable<Message> Get()
         {
-            return _service.Get();
+            return _service.ShowAllMessages();
         }
+
 
         [HttpPost]
-        public ActionResult<IEnumerable<Message>> Post([FromQuery] string addTitle, [FromQuery] string addBody)
+        public ActionResult<IEnumerable<Message>> Post([FromBody] string addTitle, [FromBody] string addBody)
         {
-            return Ok(_service.Post(addTitle, addBody));
+            return Ok(_service.AddMessage(addTitle, addBody));
         }
 
+
         [HttpPut]
-        public ActionResult<IEnumerable<Message>> Put([FromQuery] int id, [FromQuery] string titleToChange)
+        public ActionResult<IEnumerable<Message>> Put([FromQuery] int id, [FromBody] string titleToChange)
         {
-            return Ok(_service.Put(id, titleToChange));
+            return Ok(_service.ChangeTitle(id, titleToChange));
         }
+
 
         [HttpDelete]
         public ActionResult<IEnumerable<Message>> Delete([FromQuery] int id)
         {
-            return Ok(_service.Delete(id));
+            return Ok(_service.DeleteMessage(id));
         }
     }
 }
