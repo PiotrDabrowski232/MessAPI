@@ -24,7 +24,7 @@ namespace MessAPI.Controllers
         }
         
         [HttpPost]
-        public ActionResult<IEnumerable<Message>> Post([FromBody] Message message)
+        public ActionResult<Message> Post([FromBody] Message message)
         {
             return Ok(_service.AddMessage(message));
         }
@@ -32,14 +32,16 @@ namespace MessAPI.Controllers
         [HttpPut]
         public ActionResult<IEnumerable<Message>> Put2([FromBody] Message message)
         {
-            return Ok(_service.ChangeMessage(message));
+            _service.ChangeMessage(message);
+            return Ok();
         }
 
         
         [HttpDelete]
         public ActionResult<IEnumerable<Message>> Delete([FromQuery] int id)
         {
-            return Ok(_service.DeleteMessage(id));
+            _service.DeleteMessage(id);
+            return Ok();
         }
     }
 }

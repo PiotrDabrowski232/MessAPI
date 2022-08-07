@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -20,10 +21,10 @@ namespace MessAPI
 
 
 
-        public IEnumerable<Message> AddMessage(Message message)
+        public Message AddMessage(Message message)
         {
-            ListOfMessages.Add(new Message() { Id = ListOfMessages.Count, Title = message.Title, Body = message.Body });
-            return ListOfMessages.ToArray();
+           ListOfMessages.Add(new Message() { Id = ListOfMessages.Count, Title = message.Title, Body = message.Body });
+            return ListOfMessages.Last();
         }
 
 
