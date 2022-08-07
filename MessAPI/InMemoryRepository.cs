@@ -20,28 +20,29 @@ namespace MessAPI
 
 
 
-        public IEnumerable<Message> AddMessage(string addedTitle, string addedBody)
+        public IEnumerable<Message> AddMessage(Message message)
         {
-            ListOfMessages.Add(new Message() { Id = ListOfMessages.Count, Title = addedTitle, Body = addedBody });
+            ListOfMessages.Add(new Message() { Id = ListOfMessages.Count, Title = message.Title, Body = message.Body });
             return ListOfMessages.ToArray();
         }
 
 
 
-        public IEnumerable<Message> ChangeTitle(int id, string titleToChange)
+        public IEnumerable<Message> ChangeMessage(Message messageFromBody)
         {
-            Message message = new Message();
+            Message messageFromMethod = new Message();
 
             for (int i = 0; i < ListOfMessages.Count; i++)
             {
-                message = ListOfMessages[i];
+                messageFromMethod = ListOfMessages[i];
 
-                if (Equals(id, message.Id))
+                if (Equals(messageFromBody.Id, messageFromMethod.Id))
                 {
-                    message.Title = titleToChange;
-                    ListOfMessages[i] = message;
+                    messageFromMethod.Title = messageFromBody.Title;
+                    messageFromMethod.Body = messageFromBody.Body;
                 }
             }
+           
             return ListOfMessages.ToArray();
         }
 

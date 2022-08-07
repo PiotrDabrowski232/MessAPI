@@ -28,16 +28,16 @@ namespace MessAPI.Controllers
 
 
         [HttpPost]
-        public ActionResult<IEnumerable<Message>> Post([FromBody] string addTitle, [FromBody] string addBody)
+        public ActionResult<IEnumerable<Message>> Post([FromBody] Message message)
         {
-            return Ok(_service.AddMessage(addTitle, addBody));
+            return Ok(_service.AddMessage(message));
         }
 
 
         [HttpPut]
-        public ActionResult<IEnumerable<Message>> Put([FromQuery] int id, [FromBody] string titleToChange)
+        public ActionResult<IEnumerable<Message>> Put([FromBody] Message message)
         {
-            return Ok(_service.ChangeTitle(id, titleToChange));
+           return Ok(_service.ChangeMessage(message));
         }
 
 

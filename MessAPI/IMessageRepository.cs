@@ -4,8 +4,8 @@ namespace MessAPI
 {
     public interface IMessageRepository
     {
-        IEnumerable<Message> AddMessage(string addedTitle, string addedBody);
-        IEnumerable<Message> ChangeTitle(int id, string titleToChange);
+        IEnumerable<Message> AddMessage(Message message);
+        IEnumerable<Message> ChangeMessage(Message message);
         IEnumerable<Message> DeleteMessage(int id);
         List<Message> ShowAllMessages();
         
