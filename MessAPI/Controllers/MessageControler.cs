@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using MessAPI.Entities;
 namespace MessAPI.Controllers
 {
     
@@ -11,12 +12,12 @@ namespace MessAPI.Controllers
     [ApiController]
     public class MessageController : ControllerBase
     {
+       
         private readonly IMessageRepository _service;
         public MessageController(IMessageRepository service)
         {
             _service = service;
         }
-
         [HttpGet]
         public IEnumerable<Message> Get()
         {
@@ -43,6 +44,8 @@ namespace MessAPI.Controllers
             _service.DeleteMessage(id);
             return Ok();
         }
+
+      
     }
 }
 

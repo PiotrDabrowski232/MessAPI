@@ -14,7 +14,7 @@ namespace MessAPI.Entities
 
         protected override void OnModelCreating(ModelBuilder modelbuilder)
         {
-            modelbuilder.Entity<Message>().Property(MessageIdMustBeRequired => MessageIdMustBeRequired.Title).IsRequired().HasMaxLength(50);\
+            modelbuilder.Entity<Message>().Property(MessageIdMustBeRequired => MessageIdMustBeRequired.Title).IsRequired().HasMaxLength(50);
         }
 
        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
