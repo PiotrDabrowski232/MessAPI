@@ -8,8 +8,5 @@ namespace MessAPI
         IEnumerable<Message> ChangeMessage(Message message);
         IEnumerable<Message> DeleteMessage(int id);
         List<Message> ShowAllMessages();
-        
-
-       private static List<Message> Messages { get; set; }
     }
 }
