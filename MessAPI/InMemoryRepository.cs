@@ -33,7 +33,7 @@ namespace MessAPI
 
         public IEnumerable<Message> DeleteMessage(int id)
         {
-            Message MessageToRemove = ListOfMessages.Find(trash => trash.Id == id);
+            Message MessageToRemove = ListOfMessages.Find(x => x.Id == id);
             ListOfMessages.Remove(MessageToRemove);
             return ListOfMessages;
         }

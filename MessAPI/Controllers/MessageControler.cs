@@ -18,6 +18,8 @@ namespace MessAPI.Controllers
         {
             _service = service;
         }
+
+
         [HttpGet]
         public IEnumerable<Message> Get()
         {
