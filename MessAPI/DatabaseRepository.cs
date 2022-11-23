@@ -7,25 +7,39 @@ namespace MessAPI
 {
     public class DatabaseRepository : IMessageRepository
     {
-        private readonly MessageDbContext dbContext = new MessageDbContext();
+
+
+        private readonly MessageDbContext _dbContext;
+        public DatabaseRepository(MessageDbContext dbContext)
+        {
+            _dbContext = dbContext;
+        }
+
+
 
         public List<Message> ShowAllMessages()
         {
-            return dbContext.Messages.ToList();
+            return _dbContext.Messages.ToList();
         }
+
+
 
 
         public Message AddMessage(Message message)
         {
-            dbContext.Messages.Add(new Message { Id = message.Id, Title = message.Title, Body = message.Body });
-            dbContext.SaveChanges();
-            return dbContext.Messages.Find(message.Id);
+            _dbContext.Messages.Add(new Message { Id = message.Id, Title = message.Title, Body = message.Body });
+            _dbContext.SaveChanges();
+
+
+            return _dbContext.Messages.Find(message.Id);
         }
+
+
 
 
         public IEnumerable<Message> ChangeMessage(Message messageFromBody)
         {
-            Message messageFromMethod = dbContext.Messages.Find(messageFromBody.Id);
+            Message messageFromMethod = _dbContext.Messages.Find(messageFromBody.Id);
             if (messageFromBody.Title== null)
             {
                 messageFromMethod.Body = messageFromBody.Body;
@@ -45,17 +59,23 @@ namespace MessAPI
                 messageFromMethod.Body = messageFromBody.Body;
             }
             
+            _dbContext.SaveChanges();
 
-            dbContext.SaveChanges();
-            return dbContext.Messages.ToList();
+
+            return _dbContext.Messages.ToList();
         }
+
+
+
 
         public IEnumerable<Message> DeleteMessage(int id)
         {
-            Message MessageToRemove = dbContext.Messages.FirstOrDefault(x => x.Id == id);
-            dbContext.Remove(MessageToRemove);
-            dbContext.SaveChanges();
-            return dbContext.Messages.ToList();
+            Message MessageToRemove = _dbContext.Messages.FirstOrDefault(x => x.Id == id);
+            _dbContext.Remove(MessageToRemove);
+            _dbContext.SaveChanges();
+
+
+            return _dbContext.Messages.ToList();
         }
     }
 }
