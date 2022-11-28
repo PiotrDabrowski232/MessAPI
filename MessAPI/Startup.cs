@@ -30,7 +30,7 @@ namespace MessAPI
             services.AddTransient<IMessageRepository, DatabaseRepository>();
             services.AddControllers();
             services.AddDbContext<MessageDbContext>(options => options.UseSqlServer("Server=.\\mssqlserver01;Database=MessageApi;Trusted_Connection=True;"));
-
+            services.AddRazorPages();
 
             services.AddCors(c =>
             {
@@ -47,8 +47,14 @@ namespace MessAPI
             {
                 app.UseDeveloperExceptionPage();
             }
+            else
+            {
+                app.UseExceptionHandler("/Error");
+                app.UseHsts();
+            }
 
             app.UseHttpsRedirection();
+            app.UseStaticFiles();
 
             app.UseRouting();
 
