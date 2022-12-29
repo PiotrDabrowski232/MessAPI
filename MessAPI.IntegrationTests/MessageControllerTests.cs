@@ -8,6 +8,7 @@ using FluentAssertions;
 using System.Net.Http;
 using Newtonsoft.Json;
 using System.Text;
+using Microsoft.EntityFrameworkCore;
 
 namespace MessAPI.IntegrationTests
 {
@@ -37,7 +38,7 @@ namespace MessAPI.IntegrationTests
         [Fact]
         public async Task Post_ReturnsNoContentResult()
         {
-            //Arrange
+           //Arrange
 
             var model = new Message()
             {
@@ -55,19 +56,45 @@ namespace MessAPI.IntegrationTests
 
             //Assert
 
-           response.StatusCode.Should().Be(System.Net.HttpStatusCode.NoContent);
+           response.StatusCode.Should().Be(System.Net.HttpStatusCode.NoContent); 
         }
 
+        [Fact]
+        public async Task Put_ReturnsOkResult()
+        {
+            //Arrange
+
+            var model = new Message()
+            {
+                Id = 1,
+                Title = "Title",
+                Body = "Body"
+            };
+
+            var json = JsonConvert.SerializeObject(model);
+
+            var httpContent = new StringContent(json, UnicodeEncoding.UTF8, "application/json");
+
+            //Act
+
+            var response = await _client.PutAsync("/message", httpContent);
+
+            //Assert
+
+            response.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
+        }
+
+        //to jest napewno do poprawy poniewaz za pierwszym razem dziala ale gdy nastepnym razme chcemy zrobic test to juz takiego elementu nie ma w naszej bazie danych
         [Fact]
         public async Task Delete_ReturnsOkResult()
         {
             //Arrange
 
-
+           
 
             //Act
             
-            var response = await _client.DeleteAsync($"/message?id={7}");
+            var response = await _client.DeleteAsync($"/message?id={11}");
 
             //Assert
 
