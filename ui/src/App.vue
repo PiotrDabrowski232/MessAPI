@@ -1,58 +1,95 @@
 <template>
-  <Toolbar class="mb-4">
-    <template #start>
-      <Button label="New" icon="pi pi-plus" class="p-button-success mr-2" @click="display  =  !display" />
-      <Button style="margin-left: 10px;" label="Delete" icon="pi pi-trash" class="p-button-danger"
-        @click="deleteSelectedMessages" :disabled="!selectedMessages" />
-    </template>
-  </Toolbar>
+
+      <ToolBar class="mb-4">
+
+            <template #start>
+
+              <ButtonBase label="New" icon="pi pi-plus" class="p-button-success mr-2" @click="display  =  !display" />
+              <ButtonBase style="margin-left: 10px;" label="Delete" icon="pi pi-trash" class="p-button-danger"
+                @click="deleteSelectedMessages" :disabled="!selectedMessages" />
+
+            </template>
+
+      </ToolBar>
+
   <div class="card">
-    <DataTable :value="messages" editMode="row" dataKey="id" v-model:editingRows="editingRows"
-      @row-edit-save="saveOnRowChanges" v-model:selection="selectedMessages" responsiveLayout="scroll">
-      <Column selectionMode="multiple" :exportable="false"></Column>
-      <Column field="id" header="ID" style="width:20%"></Column>
-      <Column field="title" header="TITLE" style="width:20%">
-        <template #editor="{ data, field }">
-          <InputText v-model="data[field]" />
-        </template>
-      </Column>
-      <Column field="body" header="BODY" style="width:20%">
-        <template #editor="{ data, field }">
-          <InputText v-model="data[field]" />
-        </template>
-      </Column>
-      <Column :rowEditor="true" style="width:10%; min-width:8rem" bodyStyle="text-align:center"></Column>
-    </DataTable>
+
+        <DataTable :value="messages" editMode="row" dataKey="id" v-model:editingRows="editingRows"
+          @row-edit-save="saveOnRowChanges" v-model:selection="selectedMessages" responsiveLayout="scroll">
+
+              <ColumnTable selectionMode="multiple" :exportable="false"></ColumnTable>
+
+              <ColumnTable field="id" header="ID" style="width:20%"></ColumnTable>
+
+              <ColumnTable field="title" header="TITLE" style="width:20%">
+                    <template #editor="{ data, field }">
+                      <InputText v-model="data[field]" />
+                    </template>
+              </ColumnTable>
+
+              <ColumnTable field="body" header="BODY" style="width:20%">
+                    <template #editor="{ data, field }">
+                      <InputText v-model="data[field]" />
+                    </template>
+              </ColumnTable>
+
+              <ColumnTable field="type" header="TYPE OF MESSAGE" style="width:20%"></ColumnTable>
+
+              <ColumnTable :rowEditor="true" style="width:10%; min-width:8rem" bodyStyle="text-align:center"></ColumnTable>
+
+        </DataTable>
+
   </div>
-  <!---->
-  <div class="CreateMessage" v-if="display">
-    <span class="p-float-label">
-      <InputText id="title" type="text" v-model="titleFromInput" />
-      <label for="Title">Title</label>
-    </span>
-    <span class="p-float-label">
-      <InputText id="body" type="text" v-model="bodyFromInput" />
-      <label for="Body">Body</label>
-    </span>
-    <Button type="button" @click="postMessages">Post</Button>
-  </div>
+
+    <ToastToast/>
+
+        <DialogInput class="input-dialog" v-model:visible="display" modal header="Input Data" :style="{ width: '25vw', height:'45vh' }">
+                  
+                              <span class="p-float-label">
+                                <InputText class="text" id="title" type="text" v-model="titleFromInput" required/>
+                                <label for="Title">Title</label>
+                              </span>
+
+                              <span class="p-float-label">
+                                <InputText id="body" type="text" v-model="bodyFromInput" />
+                                <label for="Body">Body</label>
+                              </span>
+                      
+                              <div class="flex flex-wrap gap-3">
+
+                                <p style="margin-left: 7VW; margin-top: 20px;">Type:</p>
+
+                                <div class="flex-align-items-center">
+                                    <RadioButton v-model="type" inputId="Type1" name="type" value="Positive" />
+                                    <label for="Type1" class="ml-2">Positive</label>
+                                </div>
+
+                                <div class="flex-align-items-center">
+                                    <RadioButton v-model="type" inputId="Type2" name="pizza" value="Negative" />
+                                    <label for="Type2" class="ml-2">Negative</label>
+                                </div>
+
+                                <div class="flex-align-items-center">
+                                    <RadioButton v-model="type" inputId="Type3" name="pizza"  value="Neutral" />
+                                    <label for="Type3" class="ml-2">Neutral</label>
+                                </div>
+
+                              </div>
+
+                  <ButtonBase style="bottom: 10px; right: 12px; position: absolute; " type="button" @click="postMessages">Accept</ButtonBase>
+                  
+        </DialogInput>
+
 </template>
 
 <script>
-import DataTable from 'primevue/datatable';
-import Button from 'primevue/button';
-import Toolbar from 'primevue/toolbar';
-import Column from 'primevue/column';
-import InputText from 'primevue/inputtext';
+
 
 import axios from 'axios';
+
+
 export default {
   name: 'App',
-
-
-  components: {
-    DataTable, Column, InputText, Toolbar, Button
-  },
 
 
   data() {
@@ -62,6 +99,7 @@ export default {
       selectedMessages: null,
       titleFromInput: null,
       bodyFromInput: null,
+      type: "Neutral",
       display: false,
     }
   },
@@ -74,7 +112,6 @@ export default {
 
 
 
-
   methods: {
     saveOnRowChanges(e) {
       let { newData, index } = e;
@@ -83,7 +120,8 @@ export default {
         id: this.messages[index].id,
         title: this.messages[index].title,
         body: this.messages[index].body
-      })
+      }),
+      this.$toast.add({ severity: 'success', summary: 'Success ', detail: `Message: ${this.messages[index].id} updated`, life: 3000 });
     },
 
     deleteSelectedMessages() {
@@ -91,6 +129,7 @@ export default {
         axios.delete("https://localhost:5001/message?id=" + this.selectedMessages[key].id).then(this.refreshList)
       }
       this.selectedMessages = null;
+      this.$toast.add({ severity: 'warn', summary: 'Warning', detail: 'Message(s) Deleted', life: 3000 });
     },
 
     refreshList() {
@@ -98,31 +137,37 @@ export default {
     },
 
     postMessages() {
+      if(this.titleFromInput==null || this.bodyFromInput==null || this.titleFromInput=="" || this.bodyFromInput==""){
+        this.$toast.add({ severity: 'error', summary: 'Error Message', detail: 'Complete all fields', life: 3000 });
+      }else{
       axios.post("https://localhost:5001/message", {
         title: this.titleFromInput,
         body: this.bodyFromInput,
+        type: this.type
       }).then(this.refreshList),
+      this.$toast.add({ severity: 'success', summary: 'Success', detail: `Message Added`, life: 3000 });
+      console.log(this.type)
         this.titleFromInput = null,
         this.bodyFromInput = null;
+        this.type= "Neutral",
       this.display = !this.display;
-    },
+    }},
   },
 }
 </script>
 
 <style>
-.CreateMessage {
-  margin-top: 25px;
-  margin-left: 50%;
-  display: inline-flex;
-  width: 100%;
+.input-dialog{
+  text-align: left;
+}
+.input-dialog  span, .flex-align-items-center{
+  margin-top: 24px;
+  margin-left: 7VW;
 }
 
-.CreateMessage Button {
-  margin-left: 11.5%;
-}
-
-.CreateMessage span:nth-child(2) {
-  margin-left: 8%;
+.p-dialog .p-dialog-content:last-of-type {
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+    height: 77%;
 }
 </style>
