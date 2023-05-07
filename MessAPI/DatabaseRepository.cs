@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using MessAPI.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -27,10 +28,23 @@ namespace MessAPI
 
         public Message AddMessage(Message message)
         {
-            _dbContext.Messages.Add(new Message { Id = message.Id, Title = message.Title, Body = message.Body });
+            if (message.Type == null)
+                _dbContext.Messages.Add(new Message { Id = message.Id, Title = message.Title, Body = message.Body, Type = "neutral" });
+
+            else if (message.Type.ToUpper() == "POSITIVE" || message.Type.ToUpper() == "NEGATIVE" || message.Type.ToUpper() == "NEUTRAL" || message.Type.ToUpper() == "")
+            {
+
+                if(message.Type.ToUpper() == "")
+                    _dbContext.Messages.Add(new Message { Id = message.Id, Title = message.Title, Body = message.Body, Type ="neutral" });
+
+                else
+                    _dbContext.Messages.Add(new Message { Id = message.Id, Title = message.Title, Body = message.Body, Type = message.Type });
+            }
+            else
+               throw (new ArgumentException("Type of message should be negative, positive, neutral or you can leave this value empty"));
+            
+
             _dbContext.SaveChanges();
-
-
             return _dbContext.Messages.Find(message.Id);
         }
 
@@ -70,7 +84,7 @@ namespace MessAPI
 
         public IEnumerable<Message> DeleteMessage(int id)
         {
-            Message MessageToRemove = _dbContext.Messages.FirstOrDefault(x => x.Id == id);
+            Message MessageToRemove = _dbContext.Messages.Find(id);
             _dbContext.Remove(MessageToRemove);
             _dbContext.SaveChanges();
 

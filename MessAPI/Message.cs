@@ -14,6 +14,11 @@ namespace MessAPI
 
 
 
+        public Message()
+        {
+        }
+
+
 
         public Message(int id)
         {
@@ -31,8 +36,12 @@ namespace MessAPI
 
 
 
-        public Message()
+        public Message(int id, string title, string body, string type)
         {
+            Id = id;
+            Title = title;
+            Body = body;
+            Type = type;
         }
     }
 }
