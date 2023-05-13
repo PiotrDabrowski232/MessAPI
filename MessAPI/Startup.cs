@@ -64,6 +64,7 @@ namespace MessAPI
             {
                endpoints.MapControllers();
             });
+            
         }
     }
 }

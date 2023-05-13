@@ -19,29 +19,15 @@ using MessAPI.Entities;
 
 namespace MessAPI.IntegrationTests
 {
-    public class MessageControllerTests:IClassFixture<MessageFactory<FakeStartup>>
+    public class MessageControllerTests : IClassFixture<WebApplicationFactory<FakeStartup>>
     {
-        private readonly WebApplicationFactory<FakeStartup> _factory;
+        private readonly WebApplicationFactory<FakeStartup> _factory;   
         private readonly HttpClient _client;
 
-        public MessageControllerTests(MessageFactory<FakeStartup> factory)
+        public MessageControllerTests(WebApplicationFactory<FakeStartup> factory)
         {
             _factory = factory;
-            _client = factory
-                .WithWebHostBuilder(builder =>
-                {
-                    builder.ConfigureServices(services =>
-                    {
-                        var dbcontesxtOptions = services.SingleOrDefault(service => service.ServiceType == typeof(DbContextOptions<MessageDbContext>));
-
-                        services.Remove(dbcontesxtOptions);
-
-                        services.AddDbContext<MessageDbContext>(options => options.UseInMemoryDatabase("Message"));
-                    });
-                })
-                .CreateClient();
-
-            
+            _client = factory.CreateClient();
         }
 
         [Fact]
@@ -50,9 +36,7 @@ namespace MessAPI.IntegrationTests
 
 
             // Arrange
-
-
-
+            
             //Act
 
             var response = await _client.GetAsync("message");
@@ -110,20 +94,19 @@ namespace MessAPI.IntegrationTests
 
             var model = new Message()
             {
-                Id=1,
+                Id=47,
                 Title = "Title",
                 Body = "Body"
             };
 
+            
             var json = JsonConvert.SerializeObject(model);
 
             var httpContent = new StringContent(json, UnicodeEncoding.UTF8, "application/json");
 
-
-
             //Act
 
-            await _client.PostAsync("message", httpContent);
+            
 
             var response = await _client.PutAsync("message", httpContent);
 
@@ -160,7 +143,7 @@ namespace MessAPI.IntegrationTests
 
             var postResponse = _client.PostAsync("message", httpContent);
 
-            var response = await _client.DeleteAsync($"message?id={1}");
+            var response = await _client.DeleteAsync($"message?id={45}");
             
 
 
