@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace MessAPI
+namespace MessAPI.Repositories
 {
     public class InMemoryRepository : IMessageRepository
     {

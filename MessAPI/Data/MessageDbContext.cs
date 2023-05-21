@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MessAPI.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace MessAPI.Entities
+namespace MessAPI.Data
 {
-    public class MessageDbContext:DbContext
+    public class MessageDbContext : DbContext
     {
         public MessageDbContext(DbContextOptions<MessageDbContext> options) : base(options) { }
 

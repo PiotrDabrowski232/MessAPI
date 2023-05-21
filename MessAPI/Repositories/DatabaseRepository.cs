@@ -4,7 +4,7 @@ using System.Linq;
 using MessAPI.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace MessAPI
+namespace MessAPI.Repositories
 {
     public class DatabaseRepository : IMessageRepository
     {
@@ -34,15 +34,15 @@ namespace MessAPI
             else if (message.Type.ToUpper() == "POSITIVE" || message.Type.ToUpper() == "NEGATIVE" || message.Type.ToUpper() == "NEUTRAL" || message.Type.ToUpper() == "")
             {
 
-                if(message.Type.ToUpper() == "")
-                    _dbContext.Messages.Add(new Message { Id = message.Id, Title = message.Title, Body = message.Body, Type ="neutral" });
+                if (message.Type.ToUpper() == "")
+                    _dbContext.Messages.Add(new Message { Id = message.Id, Title = message.Title, Body = message.Body, Type = "neutral" });
 
                 else
                     _dbContext.Messages.Add(new Message { Id = message.Id, Title = message.Title, Body = message.Body, Type = message.Type });
             }
             else
-               throw (new ArgumentException("Type of message should be negative, positive, neutral or you can leave this value empty"));
-            
+                throw new ArgumentException("Type of message should be negative, positive, neutral or you can leave this value empty");
+
 
             _dbContext.SaveChanges();
             return _dbContext.Messages.Find(message.Id);
@@ -54,11 +54,11 @@ namespace MessAPI
         public IEnumerable<Message> ChangeMessage(Message messageFromBody)
         {
             Message messageFromMethod = _dbContext.Messages.Find(messageFromBody.Id);
-            if (messageFromBody.Title== null)
+            if (messageFromBody.Title == null)
             {
                 messageFromMethod.Body = messageFromBody.Body;
             }
-            else if(messageFromBody.Body == null)
+            else if (messageFromBody.Body == null)
             {
                 messageFromMethod.Title = messageFromBody.Title;
             }
@@ -72,7 +72,7 @@ namespace MessAPI
                 messageFromMethod.Title = messageFromBody.Title;
                 messageFromMethod.Body = messageFromBody.Body;
             }
-            
+
             _dbContext.SaveChanges();
 
 

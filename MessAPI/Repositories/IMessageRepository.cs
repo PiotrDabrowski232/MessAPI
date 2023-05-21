@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace MessAPI
+namespace MessAPI.Repositories
 {
     public interface IMessageRepository
     {
