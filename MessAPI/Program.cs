@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-//using MessAPI.IntegrationTests;
 
 namespace MessAPI
 {
@@ -23,12 +22,5 @@ namespace MessAPI
                 {
                     webBuilder.UseStartup<Startup>();
                 });
-        /*
-        public static IHostBuilder CreateTestHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<FakeStartup>();
-                });*/
     }
 }

@@ -1,4 +1,5 @@
-using MessAPI.Entities;
+using MessAPI.Data;
+using MessAPI.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -25,7 +26,7 @@ namespace MessAPI
         public IConfiguration Configuration { get; }
 
         
-        public virtual void ConfigureServices(IServiceCollection services)
+        public void ConfigureServices(IServiceCollection services)
         {
             services.AddTransient<IMessageRepository, DatabaseRepository>();
             services.AddControllers();
@@ -39,7 +40,7 @@ namespace MessAPI
         }
 
         
-        public virtual void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 

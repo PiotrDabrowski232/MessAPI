@@ -1,9 +1,8 @@
-﻿using System;
+﻿using MessAPI.Data;
+using MessAPI.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using MessAPI.Entities;
-using Microsoft.EntityFrameworkCore;
-
 namespace MessAPI.Repositories
 {
     public class DatabaseRepository : IMessageRepository

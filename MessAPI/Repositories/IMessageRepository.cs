@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using MessAPI.Models;
+using System.Collections.Generic;
 
 namespace MessAPI.Repositories
 {

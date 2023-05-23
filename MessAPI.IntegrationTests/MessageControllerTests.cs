@@ -14,20 +14,33 @@ using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using System.IO;
-using MessAPI.Entities;
-
+using MessAPI.Models;
+using Microsoft.AspNetCore.Hosting.Server;
+using Microsoft.AspNetCore.Hosting;
+using MessAPI.Data;
 
 namespace MessAPI.IntegrationTests
 {
-    public class MessageControllerTests : IClassFixture<WebApplicationFactory<FakeStartup>>
+    public class MessageControllerTests : IClassFixture<WebApplicationFactory<Startup>>
     {
-        private readonly WebApplicationFactory<FakeStartup> _factory;   
         private readonly HttpClient _client;
 
-        public MessageControllerTests(WebApplicationFactory<FakeStartup> factory)
+        public MessageControllerTests(WebApplicationFactory<Startup> factory)
         {
-            _factory = factory;
-            _client = factory.CreateClient();
+            _client = factory
+                .WithWebHostBuilder(builder =>
+                {
+                    builder.ConfigureServices(services =>
+                    {
+                       var dbContextOptions = services.SingleOrDefault(service => service.ServiceType == typeof(DbContextOptions<MessageDbContext>));
+                       
+                       services.Remove(dbContextOptions);
+
+                       services.AddDbContext<MessageDbContext>(options => options.UseInMemoryDatabase("inMemoryDbContext"));
+
+                    });
+                })
+                .CreateClient();
         }
 
         [Fact]
@@ -94,7 +107,7 @@ namespace MessAPI.IntegrationTests
 
             var model = new Message()
             {
-                Id=47,
+                Id=1,
                 Title = "Title",
                 Body = "Body"
             };
@@ -106,7 +119,7 @@ namespace MessAPI.IntegrationTests
 
             //Act
 
-            
+            _client.PostAsync("message", httpContent);
 
             var response = await _client.PutAsync("message", httpContent);
 
@@ -141,9 +154,11 @@ namespace MessAPI.IntegrationTests
 
             //Act
 
+            _client.PostAsync("message", httpContent);
+
             var postResponse = _client.PostAsync("message", httpContent);
 
-            var response = await _client.DeleteAsync($"message?id={45}");
+            var response = await _client.DeleteAsync($"message?id={1}");
             
 
 
