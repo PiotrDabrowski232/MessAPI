@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MessAPI
+namespace MessAPI.Models
 {
     public class Message
     {
@@ -12,6 +12,11 @@ namespace MessAPI
         public string Body { get; set; }
         public string Type { get; set; }
 
+
+
+        public Message()
+        {
+        }
 
 
 
@@ -31,8 +36,12 @@ namespace MessAPI
 
 
 
-        public Message()
+        public Message(int id, string title, string body, string type)
         {
+            Id = id;
+            Title = title;
+            Body = body;
+            Type = type;
         }
     }
 }

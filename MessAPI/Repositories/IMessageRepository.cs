@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using MessAPI.Models;
+using System.Collections.Generic;
 
-namespace MessAPI
+namespace MessAPI.Repositories
 {
     public interface IMessageRepository
     {

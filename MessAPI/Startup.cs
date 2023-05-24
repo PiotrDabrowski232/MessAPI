@@ -1,4 +1,5 @@
-using MessAPI.Entities;
+using MessAPI.Data;
+using MessAPI.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -24,7 +25,7 @@ namespace MessAPI
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+        
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddTransient<IMessageRepository, DatabaseRepository>();
@@ -38,7 +39,7 @@ namespace MessAPI
             });
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
@@ -64,6 +65,7 @@ namespace MessAPI
             {
                endpoints.MapControllers();
             });
+            
         }
     }
 }

@@ -4,10 +4,13 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using MessAPI.Entities;
+using MessAPI.Data;
+using MessAPI.Repositories;
+using MessAPI.Models;
+
 namespace MessAPI.Controllers
 {
-    
+
     [Route("[controller]")]
     [ApiController]
     public class MessageController : ControllerBase
