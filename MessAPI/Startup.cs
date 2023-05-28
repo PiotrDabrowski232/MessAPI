@@ -27,12 +27,14 @@ namespace MessAPI
 
         public IConfiguration Configuration { get; }
 
-        
+        [Obsolete]
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddTransient<IMessageRepository, DatabaseRepository>();
 
-            services.AddControllers().AddFluentValidation(opt =>
+            services
+                .AddControllers()
+                .AddFluentValidation(opt =>
             {
                 opt.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly());
             });

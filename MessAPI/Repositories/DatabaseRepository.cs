@@ -1,5 +1,7 @@
 ﻿using MessAPI.Data;
 using MessAPI.Models;
+using MessAPI.Validators;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,22 +29,6 @@ namespace MessAPI.Repositories
 
         public Message AddMessage(Message message)
         {
-            if (message.Type == null)
-                _dbContext.Messages.Add(new Message { Id = message.Id, Title = message.Title, Body = message.Body, Type = "neutral" });
-
-            else if (message.Type.ToUpper() == "POSITIVE" || message.Type.ToUpper() == "NEGATIVE" || message.Type.ToUpper() == "NEUTRAL" || message.Type.ToUpper() == "")
-            {
-
-                if (message.Type.ToUpper() == "")
-                    _dbContext.Messages.Add(new Message { Id = message.Id, Title = message.Title, Body = message.Body, Type = "neutral" });
-
-                else
-                    _dbContext.Messages.Add(new Message { Id = message.Id, Title = message.Title, Body = message.Body, Type = message.Type });
-            }
-            else
-                throw new ArgumentException("Type of message should be negative, positive, neutral or you can leave this value empty");
-
-
             _dbContext.SaveChanges();
             return _dbContext.Messages.Find(message.Id);
         }
