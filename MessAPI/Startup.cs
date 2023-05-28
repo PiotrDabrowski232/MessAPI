@@ -1,3 +1,4 @@
+using FluentValidation.AspNetCore;
 using MessAPI.Data;
 using MessAPI.Repositories;
 using Microsoft.AspNetCore.Builder;
@@ -12,6 +13,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace MessAPI
@@ -29,7 +31,12 @@ namespace MessAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddTransient<IMessageRepository, DatabaseRepository>();
-            services.AddControllers();
+
+            services.AddControllers().AddFluentValidation(opt =>
+            {
+                opt.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+            });
+
             services.AddDbContext<MessageDbContext>(options => options.UseSqlServer("Server=localhost;Database=master;Trusted_Connection=True;"));
             services.AddRazorPages();
 
