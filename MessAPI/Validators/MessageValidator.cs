@@ -12,14 +12,14 @@ namespace MessAPI.Validators
                 .MaximumLength(20)
                 .NotEmpty()
                 .NotNull()
-                .WithMessage("Title of message is empty");
+                .WithMessage("Title of message is in incorrect format");
 
 
             RuleFor(m => m.Body)
                 .MaximumLength(150)
                 .NotEmpty()
                 .NotNull()
-                .WithMessage("Body of message is empty");
+                .WithMessage("Body of message is in incorrect format");
 
 
             RuleFor(m => m.Type)

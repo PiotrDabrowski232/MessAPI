@@ -29,6 +29,7 @@ namespace MessAPI.Repositories
 
         public Message AddMessage(Message message)
         {
+            _dbContext.Messages.Add(new Message(message.Id, message.Title, message.Body, message.Type));
             _dbContext.SaveChanges();
             return _dbContext.Messages.Find(message.Id);
         }
@@ -39,6 +40,19 @@ namespace MessAPI.Repositories
         public IEnumerable<Message> ChangeMessage(Message messageFromBody)
         {
             Message messageFromMethod = _dbContext.Messages.Find(messageFromBody.Id);
+
+            if (messageFromBody.Title.Equals(null))
+            {
+                messageFromBody.Title = messageFromMethod.Title;
+                messageFromMethod.Body = messageFromBody.Body;
+
+            }
+
+
+
+
+
+
             if (messageFromBody.Title == null)
             {
                 messageFromMethod.Body = messageFromBody.Body;
