@@ -29,7 +29,12 @@ namespace MessAPI.Repositories
 
         public Message AddMessage(Message message)
         {
-            _dbContext.Messages.Add(new Message(message.Id, message.Title, message.Body, message.Type));
+            if(message.Type != null)
+                _dbContext.Messages.Add(new Message(message.Id, message.Title, message.Body, message.Type));
+            else
+                _dbContext.Messages.Add(new Message(message.Id, message.Title, message.Body, "neutral"));
+
+
             _dbContext.SaveChanges();
             return _dbContext.Messages.Find(message.Id);
         }
@@ -41,7 +46,6 @@ namespace MessAPI.Repositories
         {
 
             Message messageFromMethod = _dbContext.Messages.Find(messageFromBody.Id);
-
             messageFromMethod.ChangeMessageByNotNullProperties(messageFromBody);
 
 
@@ -56,6 +60,7 @@ namespace MessAPI.Repositories
         {
 
             Message MessageToRemove = _dbContext.Messages.Find(id);
+
             _dbContext.Remove(MessageToRemove);
             _dbContext.SaveChanges();
 

@@ -24,7 +24,8 @@ namespace MessAPI.Validators
 
 
             RuleFor(m => m.Type)
-                .Must(m => m.ToUpper()=="POSITIVE"|| m.ToUpper() == "NEGATIVE"|| m.ToUpper() == "NEUTRAL")
+                .Empty()
+                .Must(m => m == null || m.ToUpper()=="POSITIVE"|| m.ToUpper() == "NEGATIVE"|| m.ToUpper() == "NEUTRAL")
                 .WithMessage("Type of message is empty or is incorrect");
 
         }
