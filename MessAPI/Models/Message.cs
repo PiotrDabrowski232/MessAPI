@@ -43,5 +43,17 @@ namespace MessAPI.Models
             Body = body;
             Type = type;
         }
+
+        public void ChangeMessageByNotNullProperties(Message message)
+        {
+            if(message.Title != null)
+                Title = message.Title;
+            
+            if(message.Body != null)
+                Body = message.Body;
+
+            if(message.Type != null)
+                Type = message.Type;
+        }
     }
 }

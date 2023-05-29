@@ -39,42 +39,13 @@ namespace MessAPI.Repositories
 
         public IEnumerable<Message> ChangeMessage(Message messageFromBody)
         {
+
             Message messageFromMethod = _dbContext.Messages.Find(messageFromBody.Id);
 
-            if (messageFromBody.Title.Equals(null))
-            {
-                messageFromBody.Title = messageFromMethod.Title;
-                messageFromMethod.Body = messageFromBody.Body;
+            messageFromMethod.ChangeMessageByNotNullProperties(messageFromBody);
 
-            }
-
-
-
-
-
-
-            if (messageFromBody.Title == null)
-            {
-                messageFromMethod.Body = messageFromBody.Body;
-            }
-            else if (messageFromBody.Body == null)
-            {
-                messageFromMethod.Title = messageFromBody.Title;
-            }
-            else if (messageFromBody.Body == null && messageFromBody.Title == null)
-            {
-                messageFromMethod.Title = messageFromMethod.Title;
-                messageFromMethod.Body = messageFromMethod.Body;
-            }
-            else
-            {
-                messageFromMethod.Title = messageFromBody.Title;
-                messageFromMethod.Body = messageFromBody.Body;
-            }
 
             _dbContext.SaveChanges();
-
-
             return _dbContext.Messages.ToList();
         }
 
@@ -83,6 +54,7 @@ namespace MessAPI.Repositories
 
         public IEnumerable<Message> DeleteMessage(int id)
         {
+
             Message MessageToRemove = _dbContext.Messages.Find(id);
             _dbContext.Remove(MessageToRemove);
             _dbContext.SaveChanges();

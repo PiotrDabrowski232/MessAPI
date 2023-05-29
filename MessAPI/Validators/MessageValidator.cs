@@ -8,6 +8,7 @@ namespace MessAPI.Validators
 
         public MessageValidator()
         {
+
             RuleFor(m => m.Title)
                 .MaximumLength(20)
                 .NotEmpty()
